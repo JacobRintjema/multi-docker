@@ -5,32 +5,32 @@ services:
   - docker
 
 before_install:
-  - docker build -t cygnetops/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t rintjema/multi-docker -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true cygnetops/react-test npm test
+  - docker run -e CI=true rintjema/multi-docker npm test
 
 after_success:
-  - docker build -t cygnetops/multi-client-10-14 ./client
-  - docker build -t cygnetops/multi-nginx-10-14 ./nginx
-  - docker build -t cygnetops/multi-server-10-14 ./server
-  - docker build -t cygnetops/multi-worker-10-14 ./worker
+  - docker build -t rintjema/multi-client ./client
+  - docker build -t rintjema/multi-nginx ./nginx
+  - docker build -t rintjema/multi-server ./server
+  - docker build -t rintjema/multi-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
-  - docker push cygnetops/multi-client-10-14
-  - docker push cygnetops/multi-nginx-10-14
-  - docker push cygnetops/multi-server-10-14
-  - docker push cygnetops/multi-worker-10-14
+  - docker push rintjema/multi-client
+  - docker push rintjema/multi-nginx
+  - docker push rintjema/multi-server
+  - docker push rintjema/multi-worker
 
-deploy:
-  provider: elasticbeanstalk
-  region: 'us-east-1'
-  app: 'multi-docker'
-  env: 'MultiDocker-env'
-  bucket_name: 'elasticbeanstalk-us-east-1-923445559289'
-  bucket_path: 'docker-multi'
-  on:
-    branch: master
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: $AWS_SECRET_KEY
+# deploy:
+#   provider: elasticbeanstalk
+#   region: 'us-east-1'
+#   app: 'multi-docker'
+#   env: 'MultiDocker-env'
+#   bucket_name: 'elasticbeanstalk-us-east-1-923445559289'
+#   bucket_path: 'docker-multi'
+#   on:
+#     branch: master
+#   access_key_id: $AWS_ACCESS_KEY
+#   secret_access_key: $AWS_SECRET_KEY
