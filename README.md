@@ -6,6 +6,8 @@ The user enters in an index and the application will display the n-th term Fibon
 
 Ie. Entering Fibonacci of 4 will yield 3.
 
+[For further reading](https://en.wikipedia.org/wiki/Fibonacci_number)
+
 ## Features
 - The calculator has a basic frontend made using React, backend using Node + Express and runs on an Nginx server.
 - The application will calculate the expected Fibonacci value and store them in a Postgres database.
